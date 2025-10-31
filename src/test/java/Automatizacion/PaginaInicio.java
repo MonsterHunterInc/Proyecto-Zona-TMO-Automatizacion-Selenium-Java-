@@ -104,5 +104,32 @@ public class PaginaInicio extends DriverNavegador {
 
     }
 
+    @Test
+    public void filtroBusqueda() {
+        final var barraBusqueda = driver.findElement(By.name("title"));
 
+        //Ingreso el término de búsqueda y presiono Enter
+        barraBusqueda.sendKeys("Shokugeki no Soma");
+        barraBusqueda.sendKeys(Keys.ENTER);
+
+        sleep(2000);
+
+        //Verifico que la url actual contenga /library
+        final var urlfinal = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlfinal);
+
+        //Obtengo el valor del campo de búsqueda para verificar que coincida con lo ingresado
+        final var resultado = driver.findElement(By.id("title_item"));
+        resultado.getAttribute("value");
+
+        System.out.printf("El valor del campo de búsqueda es: %s%n", resultado.getAttribute("value"));
+
+        sleep(2000);
+
+        //Realizo la asercion correspondiente para verificar que la redireccion fue correcta
+        Assertions.assertTrue(urlfinal.contains("https://zonatmo.com/library?title=Shokugeki+no+Soma&_pg=1"), "La reedireccion a la biblioteca con lo buscado fallo o fue interrumpida");
+        Assertions.assertEquals("Shokugeki no Soma", resultado.getAttribute("value"),"El término de búsqueda no coincide con el valor ingresado");
+
+
+    }
 }
