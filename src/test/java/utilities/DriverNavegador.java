@@ -36,13 +36,16 @@ public class DriverNavegador {
         options.addArguments("--disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching"); // Deshabilita la descarga de modelos y sugerencias de optimización para mejorar el rendimiento y reducir el uso de datos
         options.addArguments("--disable-background-networking"); // Deshabilita las conexiones de red en segundo plano para mejorar la privacidad y reducir el uso de datos
 
-        options.setExperimentalOption("detach", true); // Mantiene la ventana del navegador abierta después de que el script termine
+        //options.setExperimentalOption("detach", true); // Mantiene la ventana del navegador abierta después de que el script termine
 
         // Iniciar el navegador con las opciones configuradas
         driver = new ChromeDriver(options);
 
         // Confirmación de que el navegador se ha iniciado correctamente
         System.out.println("✅ Chrome iniciado correctamente.");
+
+        // Borrar todas las cookies para asegurar una sesión limpia
+        driver.manage().deleteAllCookies();
 
         // Navegar a la página inicial
         driver.get("https://zonatmo.com/");
