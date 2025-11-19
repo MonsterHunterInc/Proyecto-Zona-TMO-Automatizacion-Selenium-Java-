@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import utilities.DriverNavegador;
 
+import java.util.List;
 import java.util.Set;
 
 public class PaginaInicio extends DriverNavegador {
@@ -349,7 +350,9 @@ public class PaginaInicio extends DriverNavegador {
     }
 
     @Test
-    public void ingresarPrimeraImagenSeccion() { //Seccion Populares
+    public void ingresarPrimeraImagenSeccion() {
+
+        //Seccion Populares
 
         // Encuentro la primera imagen de la seccion
         final var imagen = driver.findElement(By.cssSelector("div.element:first-of-type"));
@@ -373,5 +376,395 @@ public class PaginaInicio extends DriverNavegador {
 
     }
 
+    @Test
+    public void ingresarPrimeraImagenSeccionSeinen() {
 
+        // Cambio a la seccion Seinen
+        final var seccionSeinen = driver.findElement(By.id("pills-populars-boys-tab"));
+
+        //Presiono el boton de cambio de seccion
+        seccionSeinen.click();
+
+        sleep(2000);
+
+        // Encuentro la primera imagen de la seccion Seinen
+        final var imagenSeinen = driver.findElement(By.cssSelector("#pills-populars-boys div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = imagenSeinen.findElement(By.tagName("a")).getAttribute("href");;
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Hago clic en la imagen para navegar a la página del manga
+        imagenSeinen.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+
+    }
+
+    @Test
+    public void ingresarPrimeraImagenSeccionJosei() {
+
+        // Cambio a la seccion Josei
+        final var seccionJosei = driver.findElement(By.id("pills-populars-girls-tab"));
+
+        //Presiono el boton de cambio de seccion
+        seccionJosei.click();
+
+        sleep(2000);
+
+        // Encuentro la primera imagen de la seccion Josei
+        final var imagenJosei = driver.findElement(By.cssSelector("#pills-populars-girls div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = imagenJosei.findElement(By.tagName("a")).getAttribute("href");;
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Hago clic en la imagen para navegar a la página del manga
+        imagenJosei.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+
+    }
+
+    @Test
+    public void presionarBotonVerTodo() {
+
+        final var botonVerTodo = driver.findElement(By.xpath("//a[@href=\'https://zonatmo.com/populars\']"));
+
+        //Presiono el boton de Ver Todo
+        botonVerTodo.click();
+
+        sleep(2000);
+
+        //Verifico que la url actual contenga /populars
+        final var urlFinal = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlFinal);
+
+        //Realizo la asercion correspondiente para verificar que la redireccion fue correcta
+        Assertions.assertTrue(urlFinal.contains("/populars"), "La redireccion a la pagina de populares fallo");
+    }
+
+    @Test
+    public void presionarBotonListaProgramacion() {
+
+        final var botonListaProgramacion = driver.findElement(By.id("pills-lists-tab"));
+
+        //Presiono el boton de Lista de Programacion
+        botonListaProgramacion.click();
+
+        sleep(2000);
+
+        final var estado = botonListaProgramacion.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Lista de Programacion
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Lista de Programacion");
+    }
+
+    @Test
+    public void volverSeccionCapitulosPendiente() {
+
+        presionarBotonListaProgramacion();
+
+        sleep(2000);
+
+        final var botonCapitulosPendientes = driver.findElement(By.id("pills-pending-tab"));
+
+        //Presiono el boton de Capitulos Pendientes
+        botonCapitulosPendientes.click();
+
+        sleep(2000);
+
+        final var estado = botonCapitulosPendientes.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Capitulos Pendientes
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Capitulos Pendientes");
+    }
+
+    @Test
+    public void presionarBotonTrendingSeinen() {
+
+        final var botonTrendingSeinen = driver.findElement(By.id("pills-trending-boys-tab"));
+
+        //Presiono el boton de Trending
+        botonTrendingSeinen.click();
+
+        sleep(2000);
+        
+        //Verifico que la seccion haya cambiado
+        final var estado = botonTrendingSeinen.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Trending
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Trending");
+    }
+
+    @Test
+    public void presionarBotonTrendingJosei() {
+        
+        final var botonTrending = driver.findElement(By.id("pills-trending-girls-tab"));
+        
+        //Presiono el boton de Trending
+        botonTrending.click();
+        
+        sleep(2000);
+        
+        //Verifico que la seccion haya cambiado
+        final var estado = botonTrending.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+        
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Trending
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Trending");
+        
+    }
+
+    @Test
+    public void presionarbotonTrending() { //Vuelvo a la seccion desde Seinen a Trending para completar la prueba
+
+        presionarBotonTrendingSeinen();
+
+        final var botonTrending = driver.findElement(By.id("pills-trending-tab"));
+
+        //Presiono el boton de Trending
+        botonTrending.click();
+
+        sleep(2000);
+
+        //Verifico que la seccion haya cambiado
+        final var estado = botonTrending.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Trending
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Trending");
+    }
+
+    @Test
+    public void presionarBotonTrending2() { //Vuelvo a la seccion desde Josei a Trending para completar la prueba
+
+        presionarBotonTrendingJosei();
+
+        final var botonTrending = driver.findElement(By.id("pills-trending-tab"));
+
+        //Presiono el boton de Trending
+        botonTrending.click();
+
+        sleep(2000);
+
+        //Verifico que la seccion haya cambiado
+        final var estado = botonTrending.getAttribute("aria-selected");
+        System.out.printf("El estado del botón es: %s%n", estado);
+
+        //Realizo la asercion correspondiente para verificar que la seccion haya cambiado a Trending
+        Assertions.assertEquals("true", estado, "No se ha cambiado a la sección Trending");
+    }
+
+    @Test
+    public void presionarImagenTrending() {
+
+        // Encuentro la seccion de Trending
+        final var seccionTrending = driver.findElement(By.id("pills-trending"));
+
+        // Encuentro la primera imagen de la seccion Trending
+        final var imagenTrending = seccionTrending.findElement(By.cssSelector("div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = imagenTrending.findElement(By.tagName("a")).getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Hago clic en la imagen para navegar a la página del manga
+        imagenTrending.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+    }
+
+    @Test
+    public void presionarImagenTrendingSeinen() {
+
+        final var botonTrendingSeinen = driver.findElement(By.id("pills-trending-boys-tab"));
+
+        //Presiono el boton de Trending
+        botonTrendingSeinen.click();
+
+        sleep(2000);
+
+        final var imagenSeccionSeinen = driver.findElement(By.cssSelector("#pills-trending-boys div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = imagenSeccionSeinen.findElement(By.tagName("a")).getAttribute("href");;
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        //Presiono el boton de Trending
+        imagenSeccionSeinen.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+    }
+
+    @Test
+    public void presionarImagenTrendingJosei() {
+
+        final var botonTrendingSeinen = driver.findElement(By.id("pills-trending-girls-tab"));
+
+        //Presiono el boton de Trending
+        botonTrendingSeinen.click();
+
+        sleep(2000);
+
+        final var imagenSeccionSeinen = driver.findElement(By.cssSelector("#pills-trending-girls div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = imagenSeccionSeinen.findElement(By.tagName("a")).getAttribute("href");;
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        //Presiono el boton de Trending
+        imagenSeccionSeinen.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+    }
+
+    @Test
+    public void presionarPrimeraNoticia() {
+
+        // Encuentro la primera noticia en la sección de noticias
+        final var primeraNoticia = driver.findElement(By.cssSelector("div.thumbnail.news div.thumbnail-title a"));
+
+        // Obtengo la URL esperada del enlace asociado a la noticia
+        final var urlEsperada = primeraNoticia.getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Guardo el identificador de la ventana actual
+        final var ventanaActual = driver.getWindowHandle();
+
+        // Hago clic en la noticia para navegar a la página de la noticia
+        primeraNoticia.click();
+
+        sleep(3000);
+
+        // Cambio el control a la nueva ventana abierta
+        for (var ventana : driver.getWindowHandles()) {
+            if (!ventana.equals(ventanaActual)) {
+                driver.switchTo().window(ventana);
+                break;
+            }
+
+        }
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la noticia.");
+    }
+
+    @Test
+    public void presionarSegundaNoticia() {
+
+        // Encuentro la segunda noticia en la sección de noticias
+        List<WebElement> noticia = driver.findElements(By.cssSelector("div.thumbnail.news div.thumbnail-title a"));
+
+        // Selecciono la segunda noticia (índice 1)
+        final var segundaNoticia = noticia.get(1);
+
+        // Obtengo la URL esperada del enlace asociado a la noticia
+        final var urlEsperada = segundaNoticia.getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Guardo el identificador de la ventana actual
+        final var ventanaActual = driver.getWindowHandle();
+
+        // Hago clic en la noticia para navegar a la página de la noticia
+        segundaNoticia.click();
+
+        sleep(3000);
+
+        // Cambio el control a la nueva ventana abierta
+        for (var ventana : driver.getWindowHandles()) {
+            if (!ventana.equals(ventanaActual)) {
+                driver.switchTo().window(ventana);
+                break;
+            }
+
+        }
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la noticia.");
+    }
+
+    @Test
+    public void presionarTerceraNoticia() {
+
+        // Encuentro la tercera noticia en la sección de noticias
+        List<WebElement> noticia = driver.findElements(By.cssSelector("div.thumbnail.news div.thumbnail-title a"));
+
+        // Selecciono la segunda noticia (índice 1)
+        final var segundaNoticia = noticia.get(2);
+
+        // Obtengo la URL esperada del enlace asociado a la noticia
+        final var urlEsperada = segundaNoticia.getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Guardo el identificador de la ventana actual
+        final var ventanaActual = driver.getWindowHandle();
+
+        // Hago clic en la noticia para navegar a la página de la noticia
+        segundaNoticia.click();
+
+        sleep(3000);
+
+        // Cambio el control a la nueva ventana abierta
+        for (var ventana : driver.getWindowHandles()) {
+            if (!ventana.equals(ventanaActual)) {
+                driver.switchTo().window(ventana);
+                break;
+            }
+
+        }
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la noticia.");
+    }
 }
