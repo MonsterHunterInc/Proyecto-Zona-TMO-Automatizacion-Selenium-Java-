@@ -737,17 +737,17 @@ public class PaginaInicio extends DriverNavegador {
         List<WebElement> noticia = driver.findElements(By.cssSelector("div.thumbnail.news div.thumbnail-title a"));
 
         // Selecciono la segunda noticia (índice 1)
-        final var segundaNoticia = noticia.get(2);
+        final var tercerNoticia = noticia.get(2);
 
         // Obtengo la URL esperada del enlace asociado a la noticia
-        final var urlEsperada = segundaNoticia.getAttribute("href");
+        final var urlEsperada = tercerNoticia.getAttribute("href");
         System.out.printf("La url esperada es: %s%n", urlEsperada);
 
         // Guardo el identificador de la ventana actual
         final var ventanaActual = driver.getWindowHandle();
 
         // Hago clic en la noticia para navegar a la página de la noticia
-        segundaNoticia.click();
+        tercerNoticia.click();
 
         sleep(3000);
 
