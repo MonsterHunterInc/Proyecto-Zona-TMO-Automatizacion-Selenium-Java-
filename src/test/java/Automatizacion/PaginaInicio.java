@@ -767,4 +767,77 @@ public class PaginaInicio extends DriverNavegador {
         // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
         Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la noticia.");
     }
+
+    @Test
+    public void presionarImagenUltimosAñadidos() {
+
+        // Encuentro la sección de Últimos añadidos
+        final var tituloSeccion = driver.findElement(By.xpath("//h1[normalize-space()='Últimos añadidos']"));
+
+        // Encuentro el contenedor principal de la sección
+        final var contenedorSeccion = tituloSeccion.findElement(By.xpath("./ancestor::div[contains(@class,'col') and contains(@class,'mt-5')]"));
+
+        // Encuentro la fila que contiene las imágenes dentro del contenedor de la sección
+        final var fila = contenedorSeccion.findElement(By.cssSelector("div.row"));
+
+        // Encuentro la primera imagen de la fila
+        final var primeraImagen = fila.findElement(By.cssSelector("div.element:first-of-type"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = primeraImagen.findElement(By.tagName("a")).getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Hago clic en la imagen para navegar a la página del manga
+        primeraImagen.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+    }
+
+    @Test
+    public void presionarImagenUltimasSubidas() {
+
+        // Encuentro la primera imagen de la fila
+        final var primeraImagen = driver.findElement(By.cssSelector("div.upload-file-row[data-index='0']"));
+
+        // Obtengo la URL esperada del enlace asociado a la imagen
+        final var urlEsperada = primeraImagen.findElement(By.tagName("a")).getAttribute("href");
+        System.out.printf("La url esperada es: %s%n", urlEsperada);
+
+        // Hago clic en la imagen para navegar a la página del manga
+        primeraImagen.click();
+
+        sleep(2000);
+
+        // Obtengo la URL actual después de hacer clic en la imagen
+        String urlActual = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlActual);
+
+        // Realizo la aserción para verificar que la URL actual coincida con la URL esperada
+        Assertions.assertEquals(urlEsperada, urlActual, "La URL actual no coincide con la URL esperada después de hacer clic en la imagen.");
+
+    }
+
+    @Test
+    public void presionarBotonVeTodos() { //Botón Ver Todos en la sección de Últimos Añadidos
+
+        final var botonVerTodos = driver.findElement(By.xpath("//a[@href='https://zonatmo.com/latest_uploads']"));
+
+        botonVerTodos.click();
+
+        sleep(1000);
+
+        //Verifico que la url actual contenga /latest_uploads
+        final var urlFinal = driver.getCurrentUrl();
+        System.out.printf("La url actual es: %s%n", urlFinal);
+
+        //Realizo la asercion correspondiente para verificar que la redireccion fue correcta
+        Assertions.assertTrue(urlFinal.contains("/latest_uploads"), "La redireccion a la pagina de últimos añadidos fallo");
+    }
 }
